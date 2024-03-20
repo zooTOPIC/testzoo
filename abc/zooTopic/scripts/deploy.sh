@@ -1,22 +1,17 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-REPOSITORY=/home/ec2-user/cicdproject 
-cd $REPOSITORY
-
-APP_NAME=cicdproject
-JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep 'SNAPSHOT.jar' | tail -n 1)
-JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
-
-CURRENT_PID=$(pgrep -f $APP_NAME)
+echo "> 현재 실행 중인 Docker 컨테이너 pid 확인" >> /home/ec2-user/deploy.log
+CURRENT_PID=$(sudo docker container ls -q)
 
 if [ -z $CURRENT_PID ]
 then
-  echo "> 종료할것 없음."
+  echo "> 현재 구동중인 Docker 컨테이너가 없으므로 종료하지 않습니다." >> /home/ec2-user/deploy.log
 else
-  echo "> kill -9 $CURRENT_PID"
-  kill -15 $CURRENT_PID
+  echo "> sudo docker stop $CURRENT_PID"   # 현재 구동중인 Docker 컨테이너가 있다면 모두 중지
+  sudo docker stop $CURRENT_PID
   sleep 5
 fi
 
-echo "> $JAR_PATH 배포"
-nohup java -jar $JAR_PATH > /dev/null 2> /dev/null < /dev/null &
+cd /home/ec2-user/app
+sudo docker build -t tcat-api-spring-boot-docker .
+sudo docker run -d -p 8080:8080 tcat-api-spring-boot-docker
