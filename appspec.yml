@@ -1,16 +1,18 @@
 version: 0.0
 os: linux
-
 files:
   - source: /
-    destination: /home/ec2-user/zooTopic-back/abc/zooTopic/
-    
+    destination: /home/ec2-user/app
+    overwrite: yes
+
 permissions:
-  - object:  /home/ec2-user/zooTopic-back/abc/zooTopic/
+  - object: /
+    pattern: "**"
     owner: ec2-user
     group: ec2-user
+
 hooks:
-  AfterInstall:
-    - location: abc/zooTopic/scripts/deploy.sh
+  ApplicationStart:
+    - location: deploy.sh
       timeout: 60
       runas: ec2-user
