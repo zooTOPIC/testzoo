@@ -20,10 +20,3 @@ fi
 
 echo "> $JAR_PATH 배포"
 nohup java -jar $JAR_PATH > /dev/null 2> /dev/null < /dev/null &
-
-
-
-
-cd /home/ec2-user/app
-sudo docker build -t tcat-api-spring-boot-docker .
-sudo docker run -d -p 8080:8080 tcat-api-spring-boot-docker
