@@ -8,8 +8,8 @@ on:
 env:
   PROJECT_NAME: zooTopic
   BUCKET_NAME: cicdzootopic
-  CODE_DEPLOY_APP_NAME: reallast
-  DEPLOYMENT_GROUP_NAME: reallast123
+  CODE_DEPLOY_APP_NAME: asdasd
+  DEPLOYMENT_GROUP_NAME: lastlastzoo
 
 jobs:
   build:
